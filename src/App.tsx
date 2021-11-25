@@ -38,7 +38,7 @@ function App() {
 	return (
 		<Flex direction="column" height="100vh" style={{ overflowY: "hidden" }}>
 			<Navbar />
-			<Box mt={16} flex="1">
+			<Box flex="1">
 				<AnimatePresence exitBeforeEnter>
 					<Routes location={location} key={location.pathname}>
 						<Route path="/" element={<Home />} />
