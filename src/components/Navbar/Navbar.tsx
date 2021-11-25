@@ -3,6 +3,7 @@ import NavItem from "./NavItem";
 import { useState } from "react";
 import NavMenu from "./NavMenu";
 import BurgerToggle from "./BurgerToggle";
+import { useNavigate } from "react-router";
 
 function Navbar() {
 	const [open, setOpen] = useState(false);
@@ -10,6 +11,8 @@ function Navbar() {
 	const toggleNav = () => {
 		setOpen(!open);
 	};
+
+	const navigate = useNavigate()
 
 	return (
 		<Flex
@@ -22,7 +25,7 @@ function Navbar() {
 			py="4"
 		>
 			<Box>
-				<Text fontWeight="600" fontSize="1.25rem">
+				<Text fontWeight="600" fontSize="1.25rem" cursor="pointer" onClick={() => navigate("/")}>
 					Typing Practice
 				</Text>
 			</Box>

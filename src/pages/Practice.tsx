@@ -43,7 +43,7 @@ function Practice() {
 	const notVisitedColor = useColorModeValue("white", "#1A202C");
 	const progressColor = useColorModeValue("#1A202C", "white");
 
-	const keyPressed = useKeyPress();
+	const { keyPressed, disposeKeyPress } = useKeyPress();
 
 	useEffect(() => {
 		initializePractice(150);
@@ -66,6 +66,10 @@ function Practice() {
 			if (keyPressed === "Enter") startPractice();
 		}
 	}, [keyPressed]);
+
+	useEffect(() => {
+		if (over) disposeKeyPress();
+	}, [over]);
 
 	const letterBackgroundColor = (index: number) => {
 		const correct = getColorVal(index)[0];

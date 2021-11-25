@@ -70,7 +70,7 @@ function Profile() {
 			{data.length > 1 && (
 				<Stack>
 					<Text fontSize="1.5rem" fontWeight="600">
-						Overview of your WPM and Accuracy
+						Overview of your WPM
 					</Text>
 					<VictoryChart animate={{ duration: 1500, easing: "linear" }} theme={theme} domainPadding={domainPadding}>
 						<VictoryAxis dependentAxis label="WPM" />
@@ -83,7 +83,7 @@ function Profile() {
 						/>
 						<VictoryLine data={data} x="date" y="wpm" colorScale="blue" style={{ data: { stroke: graphColor } }} />
 					</VictoryChart>
-					<VictoryChart animate={{ duration: 1500, easing: "linear" }} theme={theme} domainPadding={domainPadding}>
+					{/* <VictoryChart animate={{ duration: 1500, easing: "linear" }} theme={theme} domainPadding={domainPadding}>
 						<VictoryAxis dependentAxis label="Accuracy" />
 						<VictoryAxis
 							label="Date"
@@ -93,7 +93,7 @@ function Profile() {
 							}}
 						/>
 						<VictoryLine data={data} x="date" y="accuracy" colorScale="blue" style={{ data: { stroke: graphColor } }} />
-					</VictoryChart>
+					</VictoryChart> */}
 				</Stack>
 			)}
 		</PageContainer>

@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
-import { Box, Container, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Container, Flex, Stack, Text, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import PageContainer from "../components/PageContainer";
@@ -14,15 +14,17 @@ function Login() {
 	});
 
 	const navigate = useNavigate();
+	const toast = useToast()
 
 	const handleSubmit = async () => {
-		if (data.email !== "" || data.password !== "") {
-			errorToast("All fields are required");
+		if (data.email === "" || data.password === "") {
+			toast(errorToast("All fields are required"))
+			return;
 		}
 
 		const { error } = await supabase.auth.signIn({ email: data.email, password: data.password });
 
-		if (error) errorToast(error.message);
+		if (error) toast(errorToast(error.message));
 		else navigate("/");
 	};
 

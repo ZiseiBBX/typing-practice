@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Input, Stack, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, Input, Stack, Text, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { supabase } from "../services/supabase";
 import { errorToast } from "../utils/toast";
@@ -16,12 +16,15 @@ function Register() {
 	});
 
 	const navigate = useNavigate();
+	const toast = useToast();
 
 	const handleSubmit = async () => {
-		if (data.username !== "" || data.email !== "" || data.password !== "") {
-			errorToast("All fields are required");
+		if (data.username === "" || data.email === "" || data.password === "") {
+			toast(errorToast("All fields are required"));
+			return;
 		} else if (data.password !== data.confirmPassword) {
-			errorToast("Passwords do not match");
+			toast(errorToast("Passwords do not match"));
+			return;
 		}
 
 		const { error } = await supabase.auth.signUp(
@@ -29,14 +32,16 @@ function Register() {
 			{ data: { username: data.username } }
 		);
 
-		if (error) errorToast(error.message);
+		if (error) toast(errorToast(error.message));
 		else navigate("/");
 	};
 
 	return (
 		<PageContainer>
 			<Stack w={["95%", "80%"]} justify="center" mx="auto" spacing="4" textAlign="center">
-				<Text fontSize="1.5rem" fontWeight="600">Register</Text>
+				<Text fontSize="1.5rem" fontWeight="600">
+					Register
+				</Text>
 				<Input
 					value={data.username}
 					placeholder="Username"
@@ -55,7 +60,9 @@ function Register() {
 					placeholder="Confirm Password"
 					onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
 				/>
-				<Button mt="4" onClick={handleSubmit}>Register</Button>
+				<Button mt="4" onClick={handleSubmit}>
+					Register
+				</Button>
 			</Stack>
 		</PageContainer>
 	);

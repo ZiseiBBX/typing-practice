@@ -3,17 +3,17 @@ import { useState, useEffect } from "react"
 const useKeyPress = () => {
   const [keyPressed, setKeyPressed] = useState<string | null>()
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== keyPressed) {
+      setKeyPressed(event.key)
+    }
+  }
+
+  const handleKeyUp = () => {
+    setKeyPressed(null)
+  }
+
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== keyPressed) {
-        setKeyPressed(event.key)
-      }
-    }
-
-    const handleKeyUp = () => {
-      setKeyPressed(null)
-    }
-
     document.addEventListener("keydown", handleKeyDown)
     document.addEventListener("keyup", handleKeyUp)
 
@@ -23,7 +23,15 @@ const useKeyPress = () => {
     }
   }, [])
 
-  return keyPressed
+  const disposeKeyPress = () => {
+    document.removeEventListener("keydown", handleKeyDown)
+    document.removeEventListener("keyup", handleKeyUp)
+  }
+
+  return {
+    keyPressed,
+    disposeKeyPress
+  }
 }
 
 export default useKeyPress

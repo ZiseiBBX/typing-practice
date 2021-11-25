@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Stack, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, Stack, Text, useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useNavigate } from "react-router";
@@ -6,6 +6,7 @@ import Stat from "../components/Stat";
 import { supabase } from "../services/supabase";
 import useStore from "../store/store";
 import { IStatisticsTable } from "../myTypes";
+import { errorToast } from "../utils/toast";
 
 function Result() {
 	const session = useStore((state) => state.session);
@@ -14,6 +15,8 @@ function Result() {
 	const fetchStatistics = useStore((state) => state.fetchStatistics);
 	const fetchMyStatistics = useStore((state) => state.fetchMyStatistics);
 	const setOver = useStore((state) => state.setOver);
+
+	const toast = useToast()
 
 	const [show, setShow] = useState(false)
 
@@ -30,6 +33,8 @@ function Result() {
 			};
 
 			const { error } = await supabase.from("statistics").insert(data);
+
+			if (error) toast(errorToast(error.message))
 
 			if (!error) {
 				fetchStatistics();
